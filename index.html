@@ -15,16 +15,18 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-12 col-md-3 order-1 order-md-2 text-center">
-        <img src="Wizard.png" alt="Your wizard" class="img-fluid" onclick="mine()">
+        <img src="Wizard.png" alt="Your wizard" class="img-fluid" onclick="increaseMana()">
       </div>
       <div class="col-12 col-md-3 order-2 order-md-1 text-white text-center p-auto mx-auto mb-5">Mana: <span
           id="mana">---</span></div>
       <div class="col-12 order-3">
         <div class="row">
-          <div class="col-12 text-center m-1"><button class="btn btn-warning">Tome</button></div>
-          <div class="col-12 text-center m-1"><button class="btn btn-warning">Familiar</button></div>
-          <div class="col-12 text-center m-1"><button class="btn btn-warning">Apprentice</button></div>
-          <div class="col-12 text-center m-1"><button class="btn btn-warning">Cabal</button></div>
+          <div class="col-12 text-center m-1"><button class="btn btn-outline-warning" onclick="buyTome()">Tome</button>
+          </div>
+          <div class="col-12 text-center m-1"><button class="btn btn-outline-warning" id="familiar-btn"
+              onclick="summonFamiliar()">Familiar</button></div>
+          <div class="col-12 text-center m-1"><button class="btn btn-outline-warning">Apprentice</button></div>
+          <div class="col-12 text-center m-1"><button class="btn btn-outline-warning">Cabal</button></div>
         </div>
       </div>
     </div>
