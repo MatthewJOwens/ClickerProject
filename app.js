@@ -9,7 +9,7 @@ let clickUpgrades = {
   tome: {
     cost: 20,
     number: 0,
-    perClick: 1
+    perClick: 5
   },
   familiar: {
     summoned: false,
@@ -22,7 +22,7 @@ let automaticUpgrades = {
   apprentice: {
     cost: 1000,
     number: 0,
-    perSecond: 1
+    perSecond: 50
   },
   cabal: {
     joined: false,
