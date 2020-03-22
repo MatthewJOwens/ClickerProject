@@ -56,7 +56,6 @@ function buyTome() {
     document.getElementById("tome-cost").textContent = clickUpgrades.tome.cost.toString()
   }
   document.getElementById("tomes-owned").textContent = clickUpgrades.tome.number.toString()
-  document.getElementById("mana").textContent = mana.total.toString();
   if (clickUpgrades.familiar.summoned == true) {
     mana.total = mana.total + (manaGainOnClick * clickUpgrades.familiar.multiplier);
     manaGainOnClick = (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)) * clickUpgrades.familiar.multiplier;
@@ -64,6 +63,7 @@ function buyTome() {
     mana.total = mana.total + manaGainOnClick
     manaGainOnClick = mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)
   }
+  document.getElementById("mana").textContent = mana.total.toString();
   document.getElementById("mana-per-click").textContent = manaGainOnClick.toString()
   // document.getElementById("mana-per-click").textContent = (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)).toString()
 }
