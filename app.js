@@ -32,59 +32,71 @@ let automaticUpgrades = {
 }
 
 let intervalStarted = false
+let manaGainOnClick = mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)
 
 
 function increaseMana() {
   console.log("harvesting mana");
   if (clickUpgrades.familiar.summoned == true) {
-    mana.total = mana.total + ((mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)) * clickUpgrades.familiar.multiplier);
+    mana.total = mana.total + (manaGainOnClick * clickUpgrades.familiar.multiplier);
   } else {
-    mana.total = mana.total + (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number))
+    mana.total = mana.total + manaGainOnClick
   }
   document.getElementById("mana").textContent = mana.total.toString();
 }
 
 function buyTome() {
-  mana.total = mana.total - clickUpgrades.tome.cost;
-  clickUpgrades.tome.number++;
+  if (mana.total >= clickUpgrades.tome.cost) {
+    mana.total = mana.total - clickUpgrades.tome.cost;
+    clickUpgrades.tome.number++;
+  }
   document.getElementById("mana").textContent = mana.total.toString();
+  document.getElementById("mana-per-click").textContent = manaGainOnClick.toString()
 }
 
 function summonFamiliar() {
-  if (clickUpgrades.familiar.summoned == false) {
-    clickUpgrades.familiar.summoned = true;
-    mana.total = mana.total - clickUpgrades.familiar.cost;
-    document.getElementById("familiar-btn").classList.remove("btn-outline-warning")
-    document.getElementById("familiar-btn").classList.add("btn-warning")
-    document.getElementById("mana").textContent = mana.total.toString();
-  } else {
-    alert("You already have a familiar.")
+  if (mana.total >= clickUpgrades.familiar.cost) {
+    if (clickUpgrades.familiar.summoned == false) {
+      clickUpgrades.familiar.summoned = true;
+      mana.total = mana.total - clickUpgrades.familiar.cost;
+      document.getElementById("familiar-btn").classList.remove("btn-outline-warning")
+      document.getElementById("familiar-btn").classList.add("btn-warning")
+      document.getElementById("mana").textContent = mana.total.toString();
+    } else {
+      alert("You already have a familiar.")
+    }
   }
 }
 
 function acceptApprentice() {
-  if (intervalStarted == false) {
-    intervalStarted = true
-    startInterval()
+  if (mana.total >= automaticUpgrades.apprentice.cost) {
+    if (intervalStarted == false) {
+      intervalStarted = true
+      startInterval()
+    }
+    mana.total = mana.total - automaticUpgrades.apprentice.cost;
+    automaticUpgrades.apprentice.number++;
   }
-  mana.total = mana.total - automaticUpgrades.apprentice.cost;
-  automaticUpgrades.apprentice.number++;
   document.getElementById("mana").textContent = mana.total.toString();
 }
 
 function joinCabal() {
-  if (intervalStarted == false) {
-    intervalStarted = true
-    startInterval()
-  }
-  if (automaticUpgrades.cabal.joined == false) {
-    mana.total = mana.total - automaticUpgrades.cabal.cost;
-    automaticUpgrades.cabal.joined = true
-    document.getElementById("mana").textContent = mana.total.toString();
-    document.getElementById("familiar-btn").classList.remove("btn-outline-warning")
-    document.getElementById("familiar-btn").classList.add("btn-warning")
+  if (mana.total >= automaticUpgrades.cabal.cost && automaticUpgrades.apprentice.number >= 5) {
+    if (intervalStarted == false) {
+      intervalStarted = true
+      startInterval()
+    }
+    if (automaticUpgrades.cabal.joined == false) {
+      mana.total = mana.total - automaticUpgrades.cabal.cost;
+      automaticUpgrades.cabal.joined = true
+      document.getElementById("mana").textContent = mana.total.toString();
+      document.getElementById("familiar-btn").classList.remove("btn-outline-warning")
+      document.getElementById("familiar-btn").classList.add("btn-warning")
+    } else {
+      alert("You've already joined a wizard cabal.")
+    }
   } else {
-    alert("You've already joined a wizard cabal.")
+    alert("You must have " + automaticUpgrades.cabal.cost + " mana and 5 apprentices before you can join a cabal.")
   }
 }
 
