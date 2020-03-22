@@ -25,11 +25,14 @@ let automaticUpgrades = {
     perSecond: 1
   },
   cabal: {
-    summoned: false,
+    joined: false,
     cost: 5000,
     multiplier: 3,
   }
 }
+
+let intervalStarted = false
+
 
 function increaseMana() {
   console.log("harvesting mana");
@@ -60,5 +63,41 @@ function summonFamiliar() {
 }
 
 function acceptApprentice() {
+  if (intervalStarted == false) {
+    intervalStarted = true
+    startInterval()
+  }
+  mana.total = mana.total - automaticUpgrades.apprentice.cost;
+  automaticUpgrades.apprentice.number++;
+  document.getElementById("mana").textContent = mana.total.toString();
+}
 
+function joinCabal() {
+  if (intervalStarted == false) {
+    intervalStarted = true
+    startInterval()
+  }
+  if (automaticUpgrades.cabal.joined == false) {
+    mana.total = mana.total - automaticUpgrades.cabal.cost;
+    automaticUpgrades.cabal.joined = true
+    document.getElementById("mana").textContent = mana.total.toString();
+    document.getElementById("familiar-btn").classList.remove("btn-outline-warning")
+    document.getElementById("familiar-btn").classList.add("btn-warning")
+  } else {
+    alert("You've already joined a wizard cabal.")
+  }
+}
+
+function startInterval() {
+  let collectionInterval = setInterval(collectAutoUpgrades, 1000);
+}
+
+function collectAutoUpgrades() {
+  if (automaticUpgrades.cabal.joined == true) {
+    mana.total = mana.total + ((automaticUpgrades.apprentice.perSecond * automaticUpgrades.apprentice.number) * automaticUpgrades.cabal.multiplier)
+
+  } else {
+    mana.total = mana.total + (automaticUpgrades.apprentice.perSecond * automaticUpgrades.apprentice.number)
+  }
+  document.getElementById("mana").textContent = mana.total.toString();
 }

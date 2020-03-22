@@ -13,20 +13,26 @@
 
 <body>
   <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 col-md-3 order-1 order-md-2 text-center">
+    <div class="row justify-content-center">
+      <div class="col-12text-center">
         <img src="Wizard.png" alt="Your wizard" class="img-fluid" onclick="increaseMana()">
       </div>
-      <div class="col-12 col-md-3 order-2 order-md-1 text-white text-center p-auto mx-auto mb-5">Mana: <span
-          id="mana">---</span></div>
-      <div class="col-12 order-3">
+      <div class="col-12 text-white text-center p-auto mx-auto mb-5">Mana: <span id="mana">0</span>
+        <p>Mana per click: <span id="mana-per-click"></span></p>
+        <p>Mana per second: <span id="mana-per-second">0</span></p>
+        <p>Tomes owned: <span id="tomes-owned">0</span></p>
+        <p>Apprentices trained: <span id="apprentices">0</span></p>
+      </div>
+      <div class="col-12">
         <div class="row">
           <div class="col-12 text-center m-1"><button class="btn btn-outline-warning" onclick="buyTome()">Tome</button>
           </div>
           <div class="col-12 text-center m-1"><button class="btn btn-outline-warning" id="familiar-btn"
               onclick="summonFamiliar()">Familiar</button></div>
-          <div class="col-12 text-center m-1"><button class="btn btn-outline-warning">Apprentice</button></div>
-          <div class="col-12 text-center m-1"><button class="btn btn-outline-warning">Cabal</button></div>
+          <div class="col-12 text-center m-1"><button class="btn btn-outline-warning"
+              onclick="acceptApprentice()">Apprentice</button></div>
+          <div class="col-12 text-center m-1"><button class="btn btn-outline-warning"
+              onclick="joinCabal()">Cabal</button></div>
         </div>
       </div>
     </div>
