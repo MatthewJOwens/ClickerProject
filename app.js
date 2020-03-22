@@ -32,17 +32,18 @@ let automaticUpgrades = {
 }
 
 let intervalStarted = false
-let manaGainOnClick = mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)
+let manaGainOnClick = 1
 
 
 function increaseMana() {
   console.log("harvesting mana");
   if (clickUpgrades.familiar.summoned == true) {
+    mana.total = mana.total + manaGainOnClick
     // mana.total = mana.total + (manaGainOnClick * clickUpgrades.familiar.multiplier);
-    mana.total = mana.total + (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number) * clickUpgrades.familiar.multiplier);
+    // mana.total = mana.total + (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number) * clickUpgrades.familiar.multiplier);
   } else {
-    // mana.total = mana.total + manaGainOnClick
-    mana.total = mana.total + mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)
+    mana.total = mana.total + manaGainOnClick
+    // mana.total = mana.total + mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)
   }
   document.getElementById("mana").textContent = mana.total.toString();
 }
@@ -54,9 +55,17 @@ function buyTome() {
     clickUpgrades.tome.cost = Math.ceil(clickUpgrades.tome.cost * 1.2)
     document.getElementById("tome-cost").textContent = clickUpgrades.tome.cost.toString()
   }
+  document.getElementById("tomes-owned").textContent = clickUpgrades.tome.number.toString()
   document.getElementById("mana").textContent = mana.total.toString();
-  // document.getElementById("mana-per-click").textContent = manaGainOnClick.toString()
-  document.getElementById("mana-per-click").textContent = (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)).toString()
+  if (clickUpgrades.familiar.summoned == true) {
+    mana.total = mana.total + (manaGainOnClick * clickUpgrades.familiar.multiplier);
+    manaGainOnClick = (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)) * clickUpgrades.familiar.multiplier;
+  } else {
+    mana.total = mana.total + manaGainOnClick
+    manaGainOnClick = mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)
+  }
+  document.getElementById("mana-per-click").textContent = manaGainOnClick.toString()
+  // document.getElementById("mana-per-click").textContent = (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)).toString()
 }
 
 function summonFamiliar() {
@@ -64,9 +73,12 @@ function summonFamiliar() {
     if (clickUpgrades.familiar.summoned == false) {
       clickUpgrades.familiar.summoned = true;
       mana.total = mana.total - clickUpgrades.familiar.cost;
+      manaGainOnClick = (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)) * clickUpgrades.familiar.multiplier;
       document.getElementById("familiar-btn").classList.remove("btn-outline-warning")
       document.getElementById("familiar-btn").classList.add("btn-warning")
       document.getElementById("mana").textContent = mana.total.toString();
+      document.getElementById("familiar-cost").textContent = "--"
+      document.getElementById("mana-per-click").textContent = manaGainOnClick.toString()
     } else {
       alert("You already have a familiar.")
     }
@@ -81,7 +93,10 @@ function acceptApprentice() {
     }
     mana.total = mana.total - automaticUpgrades.apprentice.cost;
     automaticUpgrades.apprentice.number++;
+    automaticUpgrades.apprentice.cost = Math.ceil(automaticUpgrades.apprentice.cost * 1.3)
+    document.getElementById("apprentice-cost").textContent = automaticUpgrades.apprentice.cost.toString()
   }
+  document.getElementById("apprentices").textContent = automaticUpgrades.apprentice.number.toString()
   document.getElementById("mana").textContent = mana.total.toString();
 }
 
