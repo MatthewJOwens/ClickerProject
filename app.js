@@ -38,9 +38,11 @@ let manaGainOnClick = mana.perClick + (clickUpgrades.tome.perClick * clickUpgrad
 function increaseMana() {
   console.log("harvesting mana");
   if (clickUpgrades.familiar.summoned == true) {
-    mana.total = mana.total + (manaGainOnClick * clickUpgrades.familiar.multiplier);
+    // mana.total = mana.total + (manaGainOnClick * clickUpgrades.familiar.multiplier);
+    mana.total = mana.total + (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number) * clickUpgrades.familiar.multiplier);
   } else {
-    mana.total = mana.total + manaGainOnClick
+    // mana.total = mana.total + manaGainOnClick
+    mana.total = mana.total + mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)
   }
   document.getElementById("mana").textContent = mana.total.toString();
 }
@@ -49,9 +51,12 @@ function buyTome() {
   if (mana.total >= clickUpgrades.tome.cost) {
     mana.total = mana.total - clickUpgrades.tome.cost;
     clickUpgrades.tome.number++;
+    clickUpgrades.tome.cost = Math.ceil(clickUpgrades.tome.cost * 1.2)
+    document.getElementById("tome-cost").textContent = clickUpgrades.tome.cost.toString()
   }
   document.getElementById("mana").textContent = mana.total.toString();
-  document.getElementById("mana-per-click").textContent = manaGainOnClick.toString()
+  // document.getElementById("mana-per-click").textContent = manaGainOnClick.toString()
+  document.getElementById("mana-per-click").textContent = (mana.perClick + (clickUpgrades.tome.perClick * clickUpgrades.tome.number)).toString()
 }
 
 function summonFamiliar() {
