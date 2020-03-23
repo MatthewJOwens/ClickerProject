@@ -98,6 +98,12 @@ function acceptApprentice() {
   }
   document.getElementById("apprentices").textContent = automaticUpgrades.apprentice.number.toString()
   document.getElementById("mana").textContent = mana.total.toString();
+  if (automaticUpgrades.cabal.joined == true) {
+    mana.perSecond = (automaticUpgrades.apprentice.perSecond * automaticUpgrades.apprentice.number) * automaticUpgrades.cabal.multiplier
+  } else {
+    mana.perSecond = automaticUpgrades.apprentice.perSecond * automaticUpgrades.apprentice.number
+  }
+  document.getElementById("mana-per-second").textContent = mana.perSecond.toString()
 }
 
 function joinCabal() {
@@ -109,9 +115,11 @@ function joinCabal() {
     if (automaticUpgrades.cabal.joined == false) {
       mana.total = mana.total - automaticUpgrades.cabal.cost;
       automaticUpgrades.cabal.joined = true
+      mana.perSecond = (automaticUpgrades.apprentice.perSecond * automaticUpgrades.apprentice.number) * automaticUpgrades.cabal.multiplier
       document.getElementById("mana").textContent = mana.total.toString();
       document.getElementById("familiar-btn").classList.remove("btn-outline-warning")
       document.getElementById("familiar-btn").classList.add("btn-warning")
+      document.getElementById("mana-per-second").textContent = mana.perSecond.toString()
     } else {
       alert("You've already joined a wizard cabal.")
     }
